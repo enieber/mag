@@ -1,0 +1,120 @@
+definitions:
+  controllers.Book:
+    properties:
+      author:
+        type: string
+      id:
+        type: integer
+      title:
+        type: string
+    type: object
+  controllers.UpdateBookInput:
+    properties:
+      author:
+        type: string
+      title:
+        type: string
+    type: object
+info:
+  contact: {}
+paths:
+  /api/v1/books:
+    get:
+      consumes:
+      - application/json
+      description: List books from database
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/controllers.Book'
+            type: array
+      summary: List all books
+      tags:
+      - books
+    post:
+      consumes:
+      - application/json
+      description: Create book
+      parameters:
+      - in: query
+        name: author
+        required: true
+        type: string
+      - in: query
+        name: title
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/controllers.Book'
+      summary: Create book
+      tags:
+      - books
+  /api/v1/books/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Deleted book
+      parameters:
+      - description: id of book
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      summary: Deleted book
+      tags:
+      - books
+    get:
+      consumes:
+      - application/json
+      description: books from database
+      parameters:
+      - description: id of book
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/controllers.Book'
+      summary: find all books
+      tags:
+      - books
+    patch:
+      consumes:
+      - application/json
+      description: Update book
+      parameters:
+      - description: id of book
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: UpdateBookInput to create
+        in: body
+        name: UpdateBookInput
+        required: true
+        schema:
+          $ref: '#/definitions/controllers.UpdateBookInput'
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/controllers.Book'
+      summary: Update book
+      tags:
+      - books
+swagger: "2.0"
