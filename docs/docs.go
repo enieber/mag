@@ -34,7 +34,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/controllers.Book"
+                                "$ref": "#/definitions/models.Book"
                             }
                         }
                     }
@@ -51,23 +51,20 @@ const docTemplate = `{
                 "summary": "Create book",
                 "parameters": [
                     {
-                        "type": "string",
-                        "name": "author",
-                        "in": "query",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "name": "title",
-                        "in": "query",
-                        "required": true
+                        "description": "CreateBookInput to create",
+                        "name": "createBook",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.CreateBookInput"
+                        }
                     }
                 ],
                 "responses": {
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/controllers.Book"
+                            "$ref": "#/definitions/models.Book"
                         }
                     }
                 }
@@ -96,7 +93,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/controllers.Book"
+                            "$ref": "#/definitions/models.Book"
                         }
                     }
                 }
@@ -151,7 +148,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/controllers.UpdateBookInput"
+                            "$ref": "#/definitions/models.UpdateBookInput"
                         }
                     }
                 ],
@@ -159,7 +156,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/controllers.Book"
+                            "$ref": "#/definitions/models.Book"
                         }
                     }
                 }
@@ -167,7 +164,7 @@ const docTemplate = `{
         }
     },
     "definitions": {
-        "controllers.Book": {
+        "models.Book": {
             "type": "object",
             "properties": {
                 "author": {
@@ -181,7 +178,22 @@ const docTemplate = `{
                 }
             }
         },
-        "controllers.UpdateBookInput": {
+        "models.CreateBookInput": {
+            "type": "object",
+            "required": [
+                "author",
+                "title"
+            ],
+            "properties": {
+                "author": {
+                    "type": "string"
+                },
+                "title": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.UpdateBookInput": {
             "type": "object",
             "properties": {
                 "author": {

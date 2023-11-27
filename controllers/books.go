@@ -7,12 +7,6 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-type Book struct {
-	Id     int    `json:"id" binding"`
-	Title  string `json:"title" binding"`
-	Author string `json:"author" binding"`
-}
-
 // @BasePath /api/v1
 
 // List Books
@@ -22,7 +16,7 @@ type Book struct {
 // @Tags books
 // @Accept json
 // @Produce json
-// @Success 200 {array} Book
+// @Success 200 {array} models.Book
 // @Router /api/v1/books [get]
 func FindBooks(ctx *gin.Context) {
 	var books []models.Book
@@ -34,11 +28,6 @@ func FindBooks(ctx *gin.Context) {
 	}
 }
 
-type CreateBookInput struct {
-	Title  string `json:"title" binding:"required"`
-	Author string `json:"author" binding:"required"`
-}
-
 // @BasePath /api/v1
 
 // Create book
@@ -47,11 +36,11 @@ type CreateBookInput struct {
 // @Description Create book
 // @Tags books
 // @Accept json
-// @Param createBook query CreateBookInput true "CreateBookInput to create"
-// @Success 200 {object} Book
+// @Param createBook body models.CreateBookInput true "CreateBookInput to create"
+// @Success 200 {object} models.Book
 // @Router /api/v1/books [post]
 func CreateBook(ctx *gin.Context) {
-	var input CreateBookInput
+	var input models.CreateBookInput
 	if err := ctx.ShouldBindJSON(&input); err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
@@ -72,7 +61,7 @@ func CreateBook(ctx *gin.Context) {
 // @Tags books
 // @Accept json
 // @Param id path int true "id of book"
-// @Success 200 {object} Book
+// @Success 200 {object} models.Book
 // @Router /api/v1/books/{id} [get]
 func FindBook(ctx *gin.Context) { // Get model if exist
 	var book models.Book
@@ -85,11 +74,6 @@ func FindBook(ctx *gin.Context) { // Get model if exist
 	ctx.JSON(http.StatusOK, gin.H{"data": book})
 }
 
-type UpdateBookInput struct {
-	Title  string `json:"title"`
-	Author string `json:"author"`
-}
-
 // @BasePath /api/v1
 
 // Update book
@@ -99,8 +83,8 @@ type UpdateBookInput struct {
 // @Tags books
 // @Accept json
 // @Param id path int true "id of book"
-// @Param UpdateBookInput body UpdateBookInput true "UpdateBookInput to create"
-// @Success 200 {object} Book
+// @Param UpdateBookInput body models.UpdateBookInput true "UpdateBookInput to create"
+// @Success 200 {object} models.Book
 // @Router /api/v1/books/{id} [patch]
 func UpdateBook(ctx *gin.Context) {
 	// Get model if exist
@@ -111,7 +95,7 @@ func UpdateBook(ctx *gin.Context) {
 	}
 
 	// Validate input
-	var input UpdateBookInput
+	var input models.UpdateBookInput
 	if err := ctx.ShouldBindJSON(&input); err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
