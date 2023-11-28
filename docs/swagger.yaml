@@ -18,11 +18,47 @@ definitions:
     - author
     - title
     type: object
+  models.Product:
+    properties:
+      externtal_id:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+      type:
+        type: string
+    type: object
+  models.ProductInput:
+    properties:
+      name:
+        type: string
+      type:
+        type: string
+    type: object
   models.UpdateBookInput:
     properties:
       author:
         type: string
       title:
+        type: string
+    type: object
+  models.User:
+    properties:
+      email:
+        type: string
+      externtal_id:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+    type: object
+  models.UserInput:
+    properties:
+      email:
+        type: string
+      name:
         type: string
     type: object
 info:
@@ -125,4 +161,44 @@ paths:
       summary: Update book
       tags:
       - books
+  /api/v1/products:
+    post:
+      consumes:
+      - application/json
+      description: Create Product
+      parameters:
+      - description: ProductInput to create
+        in: body
+        name: createBook
+        required: true
+        schema:
+          $ref: '#/definitions/models.ProductInput'
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Product'
+      summary: Create Product
+      tags:
+      - products
+  /api/v1/users:
+    post:
+      consumes:
+      - application/json
+      description: Create User
+      parameters:
+      - description: UserInput to create
+        in: body
+        name: createBook
+        required: true
+        schema:
+          $ref: '#/definitions/models.UserInput'
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.User'
+      summary: Create User
+      tags:
+      - users
 swagger: "2.0"

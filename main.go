@@ -22,6 +22,10 @@ func main() {
 		v1.POST("/books", controllers.CreateBook)
 		v1.PATCH("/books/:id", controllers.UpdateBook)
 		v1.DELETE("/books/:id", controllers.DeleteBook)
+
+		v1.POST("/products", controllers.CreateProduct)
+		v1.POST("/users", controllers.CreateUser)
+		v1.POST("/sales/buy", controllers.BuyProduct)
 		app.GET("/swagger/v1/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 	}
 
