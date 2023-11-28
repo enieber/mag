@@ -1,8 +1,6 @@
 package models
 
 import (
-	"os"
-
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
 )
@@ -10,16 +8,17 @@ import (
 var DB *gorm.DB
 
 func ConnectDatabase() {
-	dbUrl := os.Getenv("DATABASE_URL")
-	database, err := gorm.Open(sqlite.Open(dbUrl), &gorm.Config{})
+	database, err := gorm.Open(sqlite.Open("test.db"), &gorm.Config{
+		SkipDefaultTransaction: false,
+	})
 
 	if err != nil {
 		panic("Failed to connect to database!")
 	}
 
-	err = database.AutoMigrate(&Book{}, &Product{}, &User{}, &Sales{}, &Transaction{})
+	err = database.Debug().AutoMigrate(&Book{}, &User{}, &Product{}, &Sale{})
 	if err != nil {
-		return
+		panic("Failed to migration!")
 	}
 
 	DB = database

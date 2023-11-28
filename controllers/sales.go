@@ -37,11 +37,8 @@ func BuyProduct(ctx *gin.Context) {
 		return
 	}
 
-	sales := models.Sales{Product: product, User: user, Status: "Pending"}
-	transaction := models.Transaction{Sales: sales, StatusChange: sales.Status}
-	models.DB.Create(&sales)
-	models.DB.Create(&transaction)
-	res := models.TransactionReturn{Id: transaction.ID, Status: sales.Status}
-	ctx.JSON(http.StatusOK, gin.H{"data": res})
+	sale := models.Sale{ProductID: product.ID, UserID: user.ID, Status: "Pending"}
+	models.DB.Create(&sale)
+	ctx.JSON(http.StatusOK, gin.H{"data": sale})
 
 }
