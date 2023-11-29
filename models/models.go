@@ -29,9 +29,9 @@ type Sale struct {
 
 type Transaction struct {
 	gorm.Model
-	ID        int `gorm:"primaryKey"`
-	SaleID 		int
-	Status    string `json:"status"`
+	ID     int `gorm:"primaryKey"`
+	SaleID int
+	Status string `json:"status"`
 }
 
 type Sales struct {
@@ -47,7 +47,7 @@ type SalesInput struct {
 }
 
 type TransactionReturn struct {
-	Id     uint   `json:"id"`
+	Id     int    `json:"id"`
 	Status string `json:"status"`
 }
 
@@ -66,13 +66,12 @@ type Resource struct {
 	ID      uint    `json:"id" gorm:"primary_key"`
 	Product Product `gorm:"foreignKey:ProductID;references:ID" json:"product"`
 	SalesID uint
-	Status string
-	IP string
+	Status  string
+	IP      string
 }
 
 type AcessResource struct {
 	gorm.Model
 	AcessPublicKey string
-	ResourceID uint
+	ResourceID     uint
 }
-

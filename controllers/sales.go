@@ -36,44 +36,23 @@ func BuyProduct(ctx *gin.Context) {
 		ctx.JSON(http.StatusBadRequest, gin.H{"error": "product not found!"})
 		return
 	}
-	
-	transaction, err := StartSale(ctx.database)
-	if err != nil {
-		return err
-	}
 
-	transactionReturn := TransactionReturn{Id: transaction.ID, Status: transaction.Status}
-	ctx.JSON(http.StatusOK, gin.H{"data": transactionReturn})
-}
-
-func StartSale(db *gorm.DB) (models.TransactionReturn, error) {
-  // Note the use of tx as the database handle once you are within a transaction
-  tx := db.Begin()
-  defer func() {
-    if r := recover(); r != nil {
-      tx.Rollback()
-    }
-  }()
-
-  if err := tx.Error; err != nil {
-    return nil, err
-  }
-
+	tx := models.DB.Begin()
 	sale := models.Sale{ProductID: product.ID, UserID: user.ID, Status: "Pending"}
 	if err := tx.Create(&sale).Error; err != nil {
-     tx.Rollback()
-     return nil, err
-  }
+		tx.Rollback()
+		ctx.JSON(http.StatusBadRequest, gin.H{"error": "not save sale"})
+		return
+	}
 
 	transaction := models.Transaction{SaleID: sale.ID, Status: sale.Status}
 	if err := tx.Create(&transaction).Error; err != nil {
-     tx.Rollback()
-     return nil, err
-  }
+		tx.Rollback()
+		ctx.JSON(http.StatusBadRequest, gin.H{"error": "not save transaction"})
+		return
+	}
 
-  if err := tx.Commit().Error; err != nil {
-	     return nil, err	
-  }
+	transactionReturn := models.TransactionReturn{Id: transaction.ID, Status: transaction.Status}
+	ctx.JSON(http.StatusOK, gin.H{"data": transactionReturn})
 
-  return transaction, nil
 }
