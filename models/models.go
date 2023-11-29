@@ -4,7 +4,7 @@ import "gorm.io/gorm"
 
 type User struct {
 	gorm.Model
-	ID       int `gorm:"primaryKey"`
+	ID       uint `gorm:"primaryKey"`
 	Name     string
 	Email    string
 	Products []Product `gorm:"many2many:user_products;"`
@@ -12,7 +12,7 @@ type User struct {
 
 type Product struct {
 	gorm.Model
-	ID         int `gorm:"primaryKey"`
+	ID         uint `gorm:"primaryKey"`
 	Name       string
 	Sales      []Sale `gorm:"foreignkey:ProductID;references:ID"`
 	Type       string `json:"type"`
@@ -21,16 +21,16 @@ type Product struct {
 
 type Sale struct {
 	gorm.Model
-	ID        int `gorm:"primaryKey"`
-	UserID    int
-	ProductID int
+	ID        uint `gorm:"primaryKey"`
+	UserID    uint
+	ProductID uint
 	Status    string `json:"status"`
 }
 
 type Transaction struct {
 	gorm.Model
-	ID     int `gorm:"primaryKey"`
-	SaleID int
+	ID     uint `json:"id" gorm:"primary_key"`
+	SaleID uint
 	Status string `json:"status"`
 }
 
@@ -47,7 +47,7 @@ type SalesInput struct {
 }
 
 type TransactionReturn struct {
-	Id     int    `json:"id"`
+	ID     uint   `json:"id"`
 	Status string `json:"status"`
 }
 

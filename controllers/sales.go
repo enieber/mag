@@ -37,22 +37,11 @@ func BuyProduct(ctx *gin.Context) {
 		return
 	}
 
-	tx := models.DB.Begin()
 	sale := models.Sale{ProductID: product.ID, UserID: user.ID, Status: "Pending"}
-	if err := tx.Create(&sale).Error; err != nil {
-		tx.Rollback()
-		ctx.JSON(http.StatusBadRequest, gin.H{"error": "not save sale"})
-		return
-	}
-
+	models.DB.Create(&sale)
 	transaction := models.Transaction{SaleID: sale.ID, Status: sale.Status}
-	if err := tx.Create(&transaction).Error; err != nil {
-		tx.Rollback()
-		ctx.JSON(http.StatusBadRequest, gin.H{"error": "not save transaction"})
-		return
-	}
-
-	transactionReturn := models.TransactionReturn{Id: transaction.ID, Status: transaction.Status}
+	models.DB.Create(&transaction)
+	transactionReturn := models.TransactionReturn{ID: transaction.ID, Status: transaction.Status}
 	ctx.JSON(http.StatusOK, gin.H{"data": transactionReturn})
 
 }
