@@ -56,24 +56,24 @@ func StartSale(db *gorm.DB) (models.TransactionReturn, error) {
   }()
 
   if err := tx.Error; err != nil {
-    return err
+    return nil, err
   }
 
 	sale := models.Sale{ProductID: product.ID, UserID: user.ID, Status: "Pending"}
 	if err := tx.Create(&sale).Error; err != nil {
      tx.Rollback()
-     return err
+     return nil, err
   }
 
 	transaction := models.Transaction{SaleID: sale.ID, Status: sale.Status}
 	if err := tx.Create(&transaction).Error; err != nil {
      tx.Rollback()
-     return err
+     return nil, err
   }
 
   if err := tx.Commit().Error; err != nil {
-	     return err	
+	     return nil, err	
   }
 
-  return transaction
+  return transaction, nil
 }
