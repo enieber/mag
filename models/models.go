@@ -41,6 +41,11 @@ type Transactions struct {
 	Sale Sale `gorm:"foreignKey:SaleID;references:ID" json:"sale"`
 }
 
+type TransactionInput struct {
+	ID     uint   `json:"id"`
+	Status string `json:"status"`
+}
+
 type SalesInput struct {
 	IdProduct uint `json:"id_product"`
 	IdUser    uint `json:"id_user"`

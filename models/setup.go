@@ -16,7 +16,7 @@ func ConnectDatabase() {
 		panic("Failed to connect to database!")
 	}
 
-	err = database.Debug().AutoMigrate(&Book{}, &User{}, &Product{}, &Sale{})
+	err = database.Debug().AutoMigrate(&Book{}, &User{}, &Product{}, &Sale{}, &Transaction{})
 	if err != nil {
 		panic("Failed to migration!")
 	}
