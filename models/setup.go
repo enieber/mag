@@ -17,7 +17,6 @@ func ConnectDatabase() {
 	}
 
 	err = database.Debug().AutoMigrate(
-		&Book{},
 		&User{},
 		&Product{},
 		&Sale{},

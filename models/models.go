@@ -16,7 +16,12 @@ type Product struct {
 	Type       string `json:"type"`
 	ExternalId string `json:"externtal_id"`
 }
-
+type ProductReturn struct {
+	ID         uint   `json:"id"`
+	Name       string `json:"name"`
+	Type       string `json:"type"`
+	ExternalId string `json:"externtal_id"`
+}
 type Sale struct {
 	gorm.Model
 	UserID    uint
@@ -57,6 +62,12 @@ type TransactionReturn struct {
 }
 
 type UserInput struct {
+	Name  string `json:"name" binding:"required`
+	Email string `json:"email" binding:"required`
+}
+
+type UserReturn struct {
+	ID    uint   `json:"id"`
 	Name  string `json:"name" binding:"required`
 	Email string `json:"email" binding:"required`
 }

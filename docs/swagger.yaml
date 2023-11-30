@@ -1,34 +1,4 @@
 definitions:
-  models.Book:
-    properties:
-      author:
-        type: string
-      id:
-        type: integer
-      title:
-        type: string
-    type: object
-  models.CreateBookInput:
-    properties:
-      author:
-        type: string
-      title:
-        type: string
-    required:
-    - author
-    - title
-    type: object
-  models.Product:
-    properties:
-      externtal_id:
-        type: string
-      id:
-        type: integer
-      name:
-        type: string
-      type:
-        type: string
-    type: object
   models.ProductInput:
     properties:
       name:
@@ -36,22 +6,36 @@ definitions:
       type:
         type: string
     type: object
-  models.UpdateBookInput:
+  models.ProductReturn:
     properties:
-      author:
-        type: string
-      title:
-        type: string
-    type: object
-  models.User:
-    properties:
-      email:
-        type: string
       externtal_id:
         type: string
       id:
         type: integer
       name:
+        type: string
+      type:
+        type: string
+    type: object
+  models.SalesInput:
+    properties:
+      id_product:
+        type: integer
+      id_user:
+        type: integer
+    type: object
+  models.TransactionInput:
+    properties:
+      id:
+        type: integer
+      status:
+        type: string
+    type: object
+  models.TransactionReturn:
+    properties:
+      id:
+        type: integer
+      status:
         type: string
     type: object
   models.UserInput:
@@ -61,106 +45,18 @@ definitions:
       name:
         type: string
     type: object
+  models.UserReturn:
+    properties:
+      email:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+    type: object
 info:
   contact: {}
 paths:
-  /api/v1/books:
-    get:
-      consumes:
-      - application/json
-      description: List books from database
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            items:
-              $ref: '#/definitions/models.Book'
-            type: array
-      summary: List all books
-      tags:
-      - books
-    post:
-      consumes:
-      - application/json
-      description: Create book
-      parameters:
-      - description: CreateBookInput to create
-        in: body
-        name: createBook
-        required: true
-        schema:
-          $ref: '#/definitions/models.CreateBookInput'
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/models.Book'
-      summary: Create book
-      tags:
-      - books
-  /api/v1/books/{id}:
-    delete:
-      consumes:
-      - application/json
-      description: Deleted book
-      parameters:
-      - description: id of book
-        in: path
-        name: id
-        required: true
-        type: integer
-      responses:
-        "200":
-          description: OK
-          schema:
-            type: string
-      summary: Deleted book
-      tags:
-      - books
-    get:
-      consumes:
-      - application/json
-      description: books from database
-      parameters:
-      - description: id of book
-        in: path
-        name: id
-        required: true
-        type: integer
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/models.Book'
-      summary: find all books
-      tags:
-      - books
-    patch:
-      consumes:
-      - application/json
-      description: Update book
-      parameters:
-      - description: id of book
-        in: path
-        name: id
-        required: true
-        type: integer
-      - description: UpdateBookInput to create
-        in: body
-        name: UpdateBookInput
-        required: true
-        schema:
-          $ref: '#/definitions/models.UpdateBookInput'
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/models.Book'
-      summary: Update book
-      tags:
-      - books
   /api/v1/products:
     post:
       consumes:
@@ -177,10 +73,50 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/models.Product'
+            $ref: '#/definitions/models.ProductReturn'
       summary: Create Product
       tags:
       - products
+  /api/v1/sales/buy:
+    post:
+      consumes:
+      - application/json
+      description: Buy Product
+      parameters:
+      - description: SalesInput to Buy
+        in: body
+        name: buyproduct
+        required: true
+        schema:
+          $ref: '#/definitions/models.SalesInput'
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.TransactionReturn'
+      summary: Buy Product
+      tags:
+      - sales
+  /api/v1/sales/payment:
+    put:
+      consumes:
+      - application/json
+      description: update status of transaction when payment updated
+      parameters:
+      - description: TransactionInput to update paymnentOk
+        in: body
+        name: transaction
+        required: true
+        schema:
+          $ref: '#/definitions/models.TransactionInput'
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.TransactionReturn'
+      summary: Update Payment
+      tags:
+      - sales
   /api/v1/users:
     post:
       consumes:
@@ -197,7 +133,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/models.User'
+            $ref: '#/definitions/models.UserReturn'
       summary: Create User
       tags:
       - users

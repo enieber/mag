@@ -14,7 +14,7 @@ import (
 // @Tags products
 // @Accept json
 // @Param createBook body models.ProductInput true "ProductInput to create"
-// @Success 200 {object} models.Product
+// @Success 200 {object} models.ProductReturn
 // @Router /api/v1/products [post]
 func CreateProduct(ctx *gin.Context) {
 	var input models.ProductInput

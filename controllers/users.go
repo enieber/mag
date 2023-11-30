@@ -16,7 +16,7 @@ import (
 // @Tags users
 // @Accept json
 // @Param createBook body models.UserInput true "UserInput to create"
-// @Success 200 {object} models.User
+// @Success 200 {object} models.UserReturn
 // @Router /api/v1/users [post]
 func CreateUser(ctx *gin.Context) {
 	var input models.UserInput
