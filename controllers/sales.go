@@ -43,5 +43,4 @@ func BuyProduct(ctx *gin.Context) {
 	models.DB.Create(&transaction)
 	transactionReturn := models.TransactionReturn{ID: transaction.ID, Status: transaction.Status}
 	ctx.JSON(http.StatusOK, gin.H{"data": transactionReturn})
-
 }

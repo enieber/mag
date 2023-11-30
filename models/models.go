@@ -4,7 +4,6 @@ import "gorm.io/gorm"
 
 type User struct {
 	gorm.Model
-	ID       uint `gorm:"primaryKey"`
 	Name     string
 	Email    string
 	Products []Product `gorm:"many2many:user_products;"`
@@ -12,7 +11,6 @@ type User struct {
 
 type Product struct {
 	gorm.Model
-	ID         uint `gorm:"primaryKey"`
 	Name       string
 	Sales      []Sale `gorm:"foreignkey:ProductID;references:ID"`
 	Type       string `json:"type"`
@@ -21,7 +19,6 @@ type Product struct {
 
 type Sale struct {
 	gorm.Model
-	ID        uint `gorm:"primaryKey"`
 	UserID    uint
 	ProductID uint
 	Status    string `json:"status"`
@@ -29,16 +26,19 @@ type Sale struct {
 
 type Transaction struct {
 	gorm.Model
-	ID     uint `json:"id" gorm:"primary_key"`
 	SaleID uint
 	Status string `json:"status"`
 }
 
 type Sales struct {
 	gorm.Model
-	ID      uint    `json:"id" gorm:"primary_key"`
 	Product Product `gorm:"foreignKey:ProductID;references:ID" json:"product"`
 	User    User    `gorm:"foreignKey:UserID;references:ID" json:"user"`
+}
+
+type Transactions struct {
+	gorm.Model
+	Sale Sale `gorm:"foreignKey:SaleID;references:ID" json:"sale"`
 }
 
 type SalesInput struct {
@@ -63,7 +63,6 @@ type ProductInput struct {
 
 type Resource struct {
 	gorm.Model
-	ID      uint    `json:"id" gorm:"primary_key"`
 	Product Product `gorm:"foreignKey:ProductID;references:ID" json:"product"`
 	SalesID uint
 	Status  string
