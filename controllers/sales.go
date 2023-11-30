@@ -90,6 +90,12 @@ func UpdateTransaction(ctx *gin.Context) {
 	models.DB.Save(&sale)
 	transaction.Status = input.Status
 	models.DB.Save(&transaction)
+
+	if transaction.Status == "PaymentOk" {
+		resource := models.Resource{Status: "Starting", SalesID: sale.ID}
+		models.DB.Create(&resource)
+	}
+
 	transactionReturn := models.TransactionReturn{ID: transaction.ID, Status: transaction.Status}
 	ctx.JSON(http.StatusOK, gin.H{"data": transactionReturn})
 }

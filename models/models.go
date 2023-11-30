@@ -68,14 +68,21 @@ type ProductInput struct {
 
 type Resource struct {
 	gorm.Model
-	Product Product `gorm:"foreignKey:ProductID;references:ID" json:"product"`
 	SalesID uint
 	Status  string
 	IP      string
+}
+
+type Resources struct {
+	Sale Sale `gorm:"foreignKey:SaleID;references:ID" json:"sale"`
 }
 
 type AcessResource struct {
 	gorm.Model
 	AcessPublicKey string
 	ResourceID     uint
+}
+
+type AcessResources struct {
+	Resource Resource `gorm:"foreignKey:ResourceID;references:ID" json:"resource"`
 }
