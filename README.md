@@ -20,7 +20,7 @@ Project to helper connect ecomerce with proxmox by api
 - [x] buy product with user
 - [x] payment update
 - [x] create resource when payment ok
-- [ ] connect with proxmox
+- [x] connect with proxmox
 - [ ] create vm when create resourece
 - [ ] add ssh public key to vm user
 
